@@ -42,3 +42,5 @@ Now let’s attached our volume created to start our first mongo container and s
 -------------------------------------------------------------------------------
 
 Next we need to create the **key file**. *The contents of the keyfile serves as the shared password for the members of the replica set. The content of the keyfile must be the same for all members of the replica set.*
+- `openssl rand -base64 741 > mongo-keyfile`
+- `chmod 600 mongo-keyfile`
