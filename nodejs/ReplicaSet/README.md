@@ -13,9 +13,8 @@ Be sure to read the nodejs/README.md and have set up docker.
 - sudo apt-get install virtualbox-5.2
 
 ### Step 1 —Create our 3 docker-machine
-To create a docker machine we need to issue the next command in a terminal:
-  - docker-machine create -d virtualbox manager1
-This command will create a machine called manager1 using virtualbox as our virtualization provider.  Now let’s create the two lefting docker-machine.
+To create a docker machine we need to issue the next command in a terminal.  This command will create a machine called manager1 using virtualbox as our virtualization provider:
+- docker-machine create -d virtualbox manager1
 - docker-machine create -d virtualbox worker1
 - docker-machine create -d virtualbox worker2
 To verify if our machines are created, let’s run the following command:
@@ -29,5 +28,8 @@ To verify if our machines are created, let’s run the following command:
 # Step 2 — Configuration of master node of MongoDB
 Now that we have our three machines lets position it in our first machine to start the mongodb configuration, let’s run the next command:
 - eval `docker-machine env manager1`
+
+-------------------------------------------------------------------------------
+
 Before creating our mongoDB containers, there is a very important topic that has been long discussed around **database persistence** in **docker containers**, and to achieve this challenge what we are going to do is to create a **docker volume**.
 - docker volume create --name mongo_storage
