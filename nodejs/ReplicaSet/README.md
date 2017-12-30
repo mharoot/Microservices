@@ -27,3 +27,7 @@ To verify if our machines are created, let’s run the following command:
   - worker2    -        virtualbox   Running   tcp://192.168.99.101:2376           v17.12.0-ce   
 
 # Step 2 — Configuration of master node of MongoDB
+Now that we have our three machines lets position it in our first machine to start the mongodb configuration, let’s run the next command:
+- eval `docker-machine env manager1`
+Before creating our mongoDB containers, there is a very important topic that has been long discussed around **database persistence** in **docker containers**, and to achieve this challenge what we are going to do is to create a **docker volume**.
+- docker volume create --name mongo_storage
