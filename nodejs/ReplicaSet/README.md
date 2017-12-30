@@ -33,3 +33,12 @@ Now that we have our three machines lets position it in our first machine to sta
 
 Before creating our mongoDB containers, there is a very important topic that has been long discussed around **database persistence** in **docker containers**, and to achieve this challenge what we are going to do is to create a **docker volume**.
 - docker volume create --name mongo_storage
+
+-------------------------------------------------------------------------------
+
+Now let’s attached our volume created to start our first mongo container and set the configurations.
+- `docker run --name mongoNode1 -v mongo_storage:/data -d mongo --smallfiles`
+
+-------------------------------------------------------------------------------
+
+Next we need to create the **key file**. *The contents of the keyfile serves as the shared password for the members of the replica set. The content of the keyfile must be the same for all members of the replica set.*
