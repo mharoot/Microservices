@@ -1,2 +1,2 @@
 # Build a NodeJS cinema microservice and deploying it with docker — part 1
-![alt text](https://github.com/mharoot/Microservices/nodejs/GinepolisCinema/images/raw/master/GinepolisCinemaArchitecture.png "Ginepolis Cinema Architecture")
+![alt text](https://github.com/mharoot/Microservices/blob/master/nodejs/GinepolisCinema/images/GinepolisCinemaArchitecture.png "Ginepolis Cinema Architecture")
