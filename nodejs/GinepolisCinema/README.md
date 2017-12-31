@@ -250,6 +250,7 @@ module.exports = Object.assign({}, {connect})
 
 ### Movies Service Repository
 ```javascript
+// movies-service/src/repository/repository.js
 'use strict'
 
 const repository = (db) => {
@@ -339,3 +340,85 @@ const connect = (connection) => {
 
 module.exports = Object.assign({}, {connect})
 ```
+
+As you can see, each service has it's own directory within the `root directory 'GinepolisCindema/'`.  The first section to look at within each service directory is the repository.  In the file `booking-service/src/repository/repository.js` we do our querys to the database.
+- Note: we provide a `connection` object to the only exposed method of the repository **connect(**`connection`**)**, you can see a powerful feature of JavaScript here, **"closures"**.  The `repository` object is returning a closure where every function has access to the `db` object and to the `collection` object.  The `db` object is holding the connection to the database.  
+- Here we are abstracting the type of database we are connection to.  The repoistory object does not have to know what type of database were working with and if it is a single database or a replica set connection.  Using the mongodb synax, we can abstract the repository functions by applying the *Dependency Inversion principle* from ***solid principles***. By taking the mongodb syntax from another file, we can just call the interface of the database actions using mongoose models.
+- There is a `booking-service/src/repository/repository.spec.js` file used for testing the repository.js module.
+```javascript
+/* eslint-env mocha */
+const should = require('should');
+const repository = require('./repository');
+
+describe('Repository', () => {
+  it('should connect with a promise', (done) => {
+    repository.connect({}).should.be.a.Promise();
+    done();
+  });
+});
+```
+
+For the remainder of this tutorial we will be discussing the movies service.
+
+---
+
+### Movies Service Server
+Next we are going to look at is the 'movies-service/src/server/server.js' file:
+```javascript
+// server.js
+const express = require('express')
+const morgan = require('morgan')
+const helmet = require('helmet')
+const api = require('../api/movies')
+
+const start = (options) => {
+  return new Promise((resolve, reject) => {
+    if (!options.repo) {
+      reject(new Error('The server must be started with a connected repository'))
+    }
+    if (!options.port) {
+      reject(new Error('The server must be started with an available port'))
+    }
+
+    const app = express()
+    app.use(morgan('dev'))
+    app.use(helmet())
+    app.use((err, req, res, next) => {
+      reject(new Error('Something went wrong!, err:' + err))
+      res.status(500).send('Something went wrong!')
+    })
+
+    api(app, options)
+
+    const server = app.listen(options.port, () => resolve(server))
+  })
+}
+
+module.exports = Object.assign({}, {start})
+
+
+
+// it's associated test file server.spec.js
+
+/* eslint-env mocha */
+const server = require('./server')
+
+describe('Server', () => {
+  it('should require a port to start', () => {
+    return server.start({
+      repo: {}
+    }).should.be.rejectedWith(/port/)
+  })
+
+  it('should require a repository to start', () => {
+    return server.start({
+      port: {}
+    }).should.be.rejectedWith(/repository/)
+  })
+})
+```
+In server.js we instantiate a new express app, verify provided repository and server port objects, then we apply some middleware to our express app:
+- `morgan` for loggin
+- `helmet` for security, *Helmet includes 11 packages that all work to block malicious parties from breaking or using an application to hurt it's users*
+- `error handling function`
+- [Nine Security Tip for Express *optional*](https://nodesource.com/blog/nine-security-tips-to-keep-express-from-getting-pwned)
