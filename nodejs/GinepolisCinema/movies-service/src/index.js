@@ -3,7 +3,7 @@
 const {EventEmitter} = require('events')
 const server = require('./server/server')
 const repository = require('./repository/repository')
-const config = require('./config/')
+const config = require('./config/config')
 const mediator = new EventEmitter()
 
 console.log('--- Movies Service ---')
@@ -25,7 +25,7 @@ mediator.on('db.ready', (db) => {
       rep = repo
       return server.start({
         port: config.serverSettings.port,
-        ssl: config.serverSettings.ssl,
+        // ssl: config.serverSettings.ssl,
         repo
       })
     })
