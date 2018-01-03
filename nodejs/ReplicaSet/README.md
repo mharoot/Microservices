@@ -20,10 +20,12 @@ To create a docker machine we need to issue the next command in a terminal.  Thi
 To verify if our machines are created, let’s run the following command:
 - docker-machine ls
 - note: it may take a long time for all the machines to be created, just be paitient, and you will get the output:
-  - NAME       ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
-  - manager1   -        virtualbox   Running   tcp://192.168.99.100:2376           v17.12.0-ce   
-  - worker1    -        virtualbox   Running   tcp://192.168.99.102:2376           v17.12.0-ce   
-  - worker2    -        virtualbox   Running   tcp://192.168.99.101:2376           v17.12.0-ce   
+```
+NAME       ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+manager1   -        virtualbox   Running   tcp://192.168.99.100:2376           v17.12.0-ce   
+worker1    -        virtualbox   Running   tcp://192.168.99.102:2376           v17.12.0-ce   
+worker2    -        virtualbox   Running   tcp://192.168.99.101:2376           v17.12.0-ce   
+```
 
 # Step 2 — Configuration of master node of MongoDB
 Now that we have our three machines lets position it in our first machine to start the mongodb configuration, let’s run the next command:
